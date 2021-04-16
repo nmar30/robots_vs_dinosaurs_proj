@@ -32,41 +32,52 @@ class Battlefield:
             string_herd += f' {self.herd[j].type} '
             j = j + 1
         print(string_herd)
+        print('______________________________________')
 
     def battle(self):
+        if
         print('Who would you like to battle as?')
         print('Press 1 for Robot and 2 for Dino')
         choice = int(input('Enter #:'))
         if choice == 1:
             print('Please select from the following:')
-            i = 0
-            while i < len(self.fleet):
-                print(f'{i}. ' + self.fleet[i].name)
-                i = i + 1
-            select_dino = int(input('Enter #'))
-            self.dino_turn(select_dino)
+            self.show_robo_options()
+            selected_robot = int(input('Enter #'))
+            self.robo_turn(selected_robot)
         elif choice == 2:
             print('Please select from the following:')
-            i = 0
-            while i < len(self.herd):
-                print(self.herd[i].type)
-                i = i + 1
-            select_robot = int(input('Enter #'))
-            self.robo_turn(select_robot)
+            self.show_dino_options()
+            selected_dino = int(input('Enter #'))
+            self.dino_turn(selected_dino)
         else:
-            choice = int(input("Please enter 1 or 2"))
+            choice = int(input("Please enter 1 or 2")) ###neeeds loopye
 
     def dino_turn(self, dinosaur):
-        pass
+        print('Who would you like to battle?')
+        self.show_robo_options()
+        selected_robot = int(input('Enter #'))
+        self.herd[dinosaur].attack(self.fleet[selected_robot])
+        print(f'{self.herd[dinosaur].type} attacked {self.fleet[selected_robot].name}')
+
 
     def robo_turn(self, robot):
-        pass
+        print('Who would you like to battle?')
+        self.show_dino_options()
+        selected_dino = int(input('Enter #'))
+        self.fleet[robot].attack(self.herd[selected_dino])
+        print(f'{self.fleet[robot].name} attacked {self.herd[selected_dino].type}')
 
-    def show_dino_opponent_options(self):
-        pass
+    def show_dino_options(self):
+        i = 0
+        while i < len(self.herd):
+            print(f'{i}. {self.herd[i].type} | Health: {self.herd[i].health}%')
+            i = i + 1
 
-    def show_robo_opponent_options(self):
-        pass
+    def show_robo_options(self):
+        i = 0
+        while i < len(self.fleet):
+            print(f'{i}. {self.fleet[i].name} | Health: {self.fleet[i].health}%')
+            i = i + 1
 
     def display_winners(self):
         pass
