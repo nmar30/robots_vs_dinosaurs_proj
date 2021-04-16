@@ -2,6 +2,9 @@ from battlefield import Battlefield
 
 if __name__ == '__main__':
     test_battlefield = Battlefield()
-    print(test_battlefield.fleet[0].name)
-    print(test_battlefield.herd[0].type)
 
+    while test_battlefield.run_game() == True:
+          test_battlefield.display_welcome()
+          test_battlefield.battle()
+    else:
+        print("okay nvm")
