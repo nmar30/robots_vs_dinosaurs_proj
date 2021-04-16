@@ -4,8 +4,8 @@ from herd import Herd
 
 class Battlefield:
     def __init__(self):
-        self.fleet = ''
-        self.herd = ''
+        self.fleet = Fleet().robots
+        self.herd = Herd().dinosaurs
 
     def run_game(self):
         pass
