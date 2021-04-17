@@ -8,15 +8,18 @@ class Battlefield:
         self.herd = Herd().dinosaurs
 
     def run_game(self):
-        run = input("Would you like to run the game? (Yes or No): ")
-        run = run.lower()
-        if run == 'yes':
-            self.display_welcome()
-            self.battle()
-        elif run == 'no':
-            print("come back another time!")
-        else:
-            run = input("please enter yes or no only: ")
+        print("Would you like to run the game?")
+        while True:
+            run = input("Yes or No?: ")
+            run = run.lower()
+            if run == 'yes':
+                self.display_welcome()
+                self.battle()
+                break
+            if run == 'no':
+                print("Come back another time!")
+                break
+            print("Please enter yes or no only: ")
 
     def display_welcome(self):
         print('Welcome to Dino Vs Robots! Your challengers are:')
@@ -39,34 +42,32 @@ class Battlefield:
         continue_game = True
         while continue_game:
             print('Who would you like to battle as? Enter 0 for Robot and 1 for Dino')
-            choice = int(input('Enter #:'))
+            choice = self.integer_only_input()
             if choice == 0:
                 print('Please select from the following:')
                 self.show_robo_options()
-                selected_robot = int(input('Enter #'))
+                selected_robot = self.integer_only_input()
                 if self.fleet[selected_robot].health <= 0:
-                    print(f'{self.herd[selected_robot].type} has no more health, please select another')
+                    print(f'{self.fleet[selected_robot].name} has no more health, please select another')
                 else:
                     self.robo_turn(selected_robot)
                 continue_game = self.continue_game()
             elif choice == 1:
                 print('Please select from the following:')
                 self.show_dino_options()
-                selected_dino = int(input('Enter #'))
+                selected_dino = self.integer_only_input()
                 if self.herd[selected_dino].health <= 0:
                     print(f'{self.herd[selected_dino].type} has no more health, please select another')
                 else:
                     self.dino_turn(selected_dino)
                 continue_game = self.continue_game()
-            else:
-                choice = int(input("Please enter 0 or 1"))
         else:
             self.display_winners()
 
     def dino_turn(self, dinosaur):
         print('Who would you like to battle?')
         self.show_robo_options()
-        selected_robot = int(input('Enter #'))
+        selected_robot = self.integer_only_input()
         if self.fleet[selected_robot].health <= 0:
             print(f'{self.fleet[selected_robot].name} has no more health, please select another')
         else:
@@ -76,7 +77,7 @@ class Battlefield:
     def robo_turn(self, robot):
         print('Who would you like to battle?')
         self.show_dino_options()
-        selected_dino = int(input('Enter #'))
+        selected_dino = self.integer_only_input()
         if self.herd[selected_dino].health <= 0:
             print(f'{self.herd[selected_dino].type} has no more health, please select another')
         else:
@@ -134,3 +135,11 @@ class Battlefield:
             herd_health_total += self.herd[j].health
             j += 1
         return herd_health_total
+
+    def integer_only_input(self):
+        while True:
+            try:
+                value = int(input('Enter #'))
+                return value
+            except:
+                print("That's not a valid option")
