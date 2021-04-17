@@ -44,7 +44,7 @@ class Battlefield:
                 print('Please select from the following:')
                 self.show_robo_options()
                 selected_robot = int(input('Enter #'))
-                if self.fleet[selected_robot].health == 0:
+                if self.fleet[selected_robot].health <= 0:
                     print(f'{self.herd[selected_robot].type} has no more health, please select another')
                 else:
                     self.robo_turn(selected_robot)
@@ -53,7 +53,7 @@ class Battlefield:
                 print('Please select from the following:')
                 self.show_dino_options()
                 selected_dino = int(input('Enter #'))
-                if self.herd[selected_dino].health == 0:
+                if self.herd[selected_dino].health <= 0:
                     print(f'{self.herd[selected_dino].type} has no more health, please select another')
                 else:
                     self.dino_turn(selected_dino)
@@ -67,8 +67,8 @@ class Battlefield:
         print('Who would you like to battle?')
         self.show_robo_options()
         selected_robot = int(input('Enter #'))
-        if self.fleet[selected_robot].health == 0:
-            print(f'{self.fleet[selected_robot].name} has no more health and has been removed from the game')
+        if self.fleet[selected_robot].health <= 0:
+            print(f'{self.fleet[selected_robot].name} has no more health, please select another')
         else:
             self.herd[dinosaur].attack(self.fleet[selected_robot])
             print(f'{self.herd[dinosaur].type} attacked {self.fleet[selected_robot].name}')
@@ -77,7 +77,7 @@ class Battlefield:
         print('Who would you like to battle?')
         self.show_dino_options()
         selected_dino = int(input('Enter #'))
-        if self.herd[selected_dino].health == 0:
+        if self.herd[selected_dino].health <= 0:
             print(f'{self.herd[selected_dino].type} has no more health, please select another')
         else:
             self.fleet[robot].attack(self.herd[selected_dino])
@@ -86,7 +86,7 @@ class Battlefield:
     def show_dino_options(self):
         i = 0
         while i < len(self.herd):
-            if self.herd[i].health == 0:
+            if self.herd[i].health <= 0:
                 print(f'{i}. {self.herd[i].type} is defeated!')
             else:
                 print(f'{i}. {self.herd[i].type} | Health: {self.herd[i].health}%')
@@ -95,7 +95,7 @@ class Battlefield:
     def show_robo_options(self):
         i = 0
         while i < len(self.fleet):
-            if self.fleet[i].health == 0:
+            if self.fleet[i].health <= 0:
                 print(f'{i}. {self.fleet[i].name} is defeated!')
             else:
                 print(f'{i}. {self.fleet[i].name} | Health: {self.fleet[i].health}%')
@@ -114,7 +114,7 @@ class Battlefield:
             self.show_robo_options()
 
     def continue_game(self):
-        if self.fleet_health_calculator() == 0 or self.herd_health_calculator() == 0:
+        if self.fleet_health_calculator() <= 0 or self.herd_health_calculator() <= 0:
             return False
         else:
             return True
