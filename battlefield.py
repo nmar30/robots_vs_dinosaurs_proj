@@ -8,7 +8,7 @@ class Battlefield:
         self.herd = Herd().dinosaurs
 
     def run_game(self):
-        run = input("Would you like to run the game? ")
+        run = input("Would you like to run the game? (Yes or No): ")
         run = run.lower()
         if run == 'yes':
             self.display_welcome()
@@ -44,13 +44,19 @@ class Battlefield:
                 print('Please select from the following:')
                 self.show_robo_options()
                 selected_robot = int(input('Enter #'))
-                self.robo_turn(selected_robot)
+                if self.fleet[selected_robot].health == 0:
+                    print(f'{self.herd[selected_robot].type} has no more health, please select another')
+                else:
+                    self.robo_turn(selected_robot)
                 continue_game = self.continue_game()
             elif choice == 1:
                 print('Please select from the following:')
                 self.show_dino_options()
                 selected_dino = int(input('Enter #'))
-                self.dino_turn(selected_dino)
+                if self.herd[selected_dino].health == 0:
+                    print(f'{self.herd[selected_dino].type} has no more health, please select another')
+                else:
+                    self.dino_turn(selected_dino)
                 continue_game = self.continue_game()
             else:
                 choice = int(input("Please enter 0 or 1"))
@@ -96,21 +102,35 @@ class Battlefield:
             i = i + 1
 
     def display_winners(self):
-        print('game ended')
+        print('_______________________________')
+        if self.fleet_health_calculator() > self.herd_health_calculator():
+
+            print('Robots Win!')
+            self.show_robo_options()
+            self.show_dino_options()
+        elif self.herd_health_calculator() > self.fleet_health_calculator():
+            print('Dinosaurs Win!')
+            self.show_dino_options()
+            self.show_robo_options()
 
     def continue_game(self):
+        if self.fleet_health_calculator() == 0 or self.herd_health_calculator() == 0:
+            return False
+        else:
+            return True
+
+    def fleet_health_calculator(self):
         i = 0
         fleet_health_total = 0
         while i < len(self.fleet):
             fleet_health_total += self.fleet[i].health
             i += 1
+        return fleet_health_total
+
+    def herd_health_calculator(self):
         j = 0
         herd_health_total = 0
         while j < len(self.herd):
             herd_health_total += self.herd[j].health
             j += 1
-
-        if fleet_health_total == 0 or herd_health_total == 0:
-            return False
-        else:
-            return True
+        return herd_health_total
